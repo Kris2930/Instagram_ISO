@@ -34,8 +34,12 @@ public partial class InstagramDbContext : DbContext
     public virtual DbSet<Usuario> Usuarios { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlServer("Server=.\\sqlexpress;Database=Instagram_ISO;Trusted_Connection=True;TrustServerCertificate=True;");
+    {
+        if (!optionsBuilder.IsConfigured)
+        {
+            optionsBuilder.UseSqlServer("Server=.\\sqlexpress;Database=Instagram_ISO;Trusted_Connection=True;TrustServerCertificate=True;");
+        }
+    }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -287,9 +291,11 @@ public partial class InstagramDbContext : DbContext
             entity.ToTable("USUARIOS");
 
             entity.Property(e => e.IdUsu)
-                .HasMaxLength(5)
-                .IsUnicode(false)
-                .HasColumnName("Id_Usu");
+    .HasColumnName("Id_Usu")
+    .HasMaxLength(5)
+    .IsUnicode(false)
+    .HasDefaultValueSql("('U' + right('0000'+CAST(NEXT VALUE FOR [Seq_Id_Usu] AS varchar(4)),(4)))")
+    .ValueGeneratedOnAdd();
             entity.Property(e => e.AliasUsu)
                 .HasMaxLength(10)
                 .IsUnicode(false)
