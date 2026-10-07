@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 
+
+
 namespace Instagram.Models;
 
 public partial class Usuario
 {
-    public string IdUsu { get; set; } = null!;
+    public string? IdUsu { get; set; }
 
     public string NomUsu { get; set; } = null!;
 

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-function Registro() {
+function Registro({ cambiarVista }) {
     const [nombre, setNombre] = useState('');
     const [apellido, setApellido] = useState('');
     const [correo, setCorreo] = useState('');
@@ -56,7 +56,6 @@ function Registro() {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
-                    idUsu: 'U' + Math.floor(Math.random() * 1000),
                     nomUsu: nombre,
                     apeUsu: apellido,
                     corUsu: correo,
@@ -143,6 +142,12 @@ function Registro() {
             {errores.servidor && <p style={{ color: 'red', fontWeight: 'bold' }}>{errores.servidor}</p>}
 
             <button type="submit">Registrarme</button>
+            <p
+                style={{ textAlign: 'center', color: '#4a9eff', fontSize: '13px', marginTop: '14px', cursor: 'pointer' }}
+                onClick={() => cambiarVista('inicio')}
+            >
+                ← Volver al inicio
+            </p>
         </form>
     );
 }
